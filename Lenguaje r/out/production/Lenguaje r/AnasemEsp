@@ -1,0 +1,152 @@
+Objetivo 1: Realización de un analizador semántico que compruebe que las asignaciones están bien tipadas.
+    - Una asignación está bien tipada si el tipo asociado a la variable en su declaración coincide con el tipo del valor asignado a dicha variable en las asignaciones.
+    - Las asignaciones de una variable entera deben ser expresiones enteras, por estas se entienden:
+      variables enteras, números y suma, resta o multiplicación de expresiones enteras.
+    - Las asignaciones de una variable booleana deben ser expresiones booleanas, por estas se entienden:
+      variables booleanas, valores booleanos (true, false),
+      la negación de una expresión booleana (NOT) y la disyunción y yustaposición de expresiones booleanas.
+    - Las asignaciones a variables del tipo "lista entera", deberán ser listas de expresiones enteras o la yustaposición (append) de dos listas enteras.
+    - Las asignaciones a variables del tipo "lista booleana", deberán ser listas de expresiones booleanas o la yustaposición (append) de dos listas booleanas.
+    - Las asignaciones a variables del tipo "lista híbrida", podrán ser tanto listas enteras, listas booleanas o una combinación de ambas o la yustaposición de dos listas.
+    - Una asignación en R puede no tener tipo si la evaluación no da un tipo claro.
+
+Decisión de diseño 1: para decidir que una asignación está bien tipada, almacenamos el tipo de cada una de las variables declaradas en un almacen variables y se comprueba que las asignaciones sean correctas.
+
+almacen variables: almacén en el que guardaremos la relación identificador-tipo de cada variable.
+
+
+programa: n:variables {almacenar n en el almacen variables} asignaciones;
+
+(parametro de salida n)
+variables: VARIABLES (m:definicion_variables {almacenar m en n} variables PyC)+;
+
+(parametro de salida m)
+definicion_variables: t:tipo s:idents {almacenar la relación de las variables s con su tipo t en m};
+
+(parametro de salida t)
+tipo: t:HLIST {t=tipo lista hibrida}
+    | t:BLIST {t=tipo lista booleana}
+    | t:ILIST {t=tipo lista entera}
+    | t:BOOLEAN {t=tipo booleano}
+    | t:INTEGER {t=tipo entero}
+    ;
+
+(parametro de salida s)
+idents: IDENT {incluir IDENT en s} (COMA IDENT {incluir IDENT en s})*;
+
+Decisión de diseño 2: Comprobar que las asignaciones son correctas comprobando que el tipo de las variables coincide con el tipo de los valores asignados a dichas variables.
+
+FUNCIONES A UTILIZAR:
+
+función comprobar_tipo_asignacion(tipo_var, tipo_asig):
+    si tipo_var==tipo_expr:                         //tipo_var == tipo_expr OK
+        NO ERROR
+    si no:
+        si tipo_var y tipo_expr == lista:           //tipo_var=lista_hibrida, tipo_expr=lista OK
+            si tipo_var = lista hibrida:
+                NO ERROR
+            si no:
+                ERROR
+        si no:
+            ERROR
+
+asignaciones: ASIGNACIONES asig*;
+
+asig: IDENT IGUAL t:expresion PyC {comprobar_tipo_asignacion(tipo de IDENT almacenado en almacen variables, t)};
+
+
+Decisión de diseño 3: calcular los tipos de todas las asignaciones aplicando distintas funciones.
+
+FUNCIONES A UTILIZAR:
+
+comprobar_tipo_listas(tipos):
+    si todos los elementos de la lista tienen el mismo tipo:
+        si el tipo es entero:
+            tipo = lista entera
+        si el tipo es booleano:
+            tipo = lista_booleana
+        si el tipo es 'no tipo':
+            tipo = no tipo
+    si no:
+        si algun elemento es no tipo:
+            tipo = no tipo
+        si no:
+            tipo = lista hibrida
+    devolver tipo
+
+comprobar_tipo_append(tipo1, tipo2):
+    si tipo1=tipo2:
+        tipo = tipo1
+    si no:
+        si tipo1 o tipo2 = no tipo:
+            tipo = no tipo
+         si no:
+            tipo = lista hibrida
+
+tipo_operacion_aritmetrica(tipo1, tipo2):
+    si tipo1=tipo2:
+        tipo = tipo1
+    si no:
+        tipo = no tipo
+    si tipo1 o tipo2 = no tipo
+        tipo = no tipo
+    devolver tipo
+
+(Parametro de salida t)
+expresion: t=expr_lista
+         | t=expr_booleana
+         | t=expr_entera
+         ;
+
+(parametro de salida t)
+expr_lista: t=lista_por_extension
+          | t=lista_append
+          | t=variable
+          ;
+(parametro de salida tipo)
+lista_por_extension: CA {tipos = cada uno de los tipos de la secuencia} t:(expr_entera|expr_booleana){añadir t a tipos}
+                        (COMA t:(expr_entera|expr_booleana){añadir t a tipos})* CC {tipo=comprobar_tipo_listas(tipos);
+
+(parametro de salida tipo)
+lista_append: APPEND PA tipo1:expr_lista COMA tipo2:expr_lista PC {tipo=comprobar_tipo_append(tipo1, tipo2)};
+
+(parametro de salida tipo)
+variable: IDENT {tipo = tipo asociado a IDENT en almacen variables};
+
+(parametro de salida tipo)
+expr_entera: tipo1:expr_entera MAS tipo2:expr_entera{tipo = tipo_op_aritmetrica(tipo1, tipo2)}
+           | tipo1:expr_entera MENOS tipo2:expr_entera{tipo = tipo_op_aritmetrica(tipo1, tipo2)}
+           | tipo1:expr_entera POR tipo2:expr_entera{tipo = tipo_op_aritmetrica(tipo1, tipo2)}
+           | IDENT {tipo = tipo asociado a IDENT en almacen variables)
+           | NUMERO {tipo = entero}
+           ;
+(parametro de salida tipo)
+expr_booleana: funcion_booleana PA tipo1:expr_booleana COMA tipo2:expr_booleana PC {tipo=tipo_funcion_booleana(tipo1, tipo2}
+             | NOT PA expr_booleana PC
+             | IDENT
+             | BOOLEANO
+             ;
+
+funcion_booleana: OR|AND;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

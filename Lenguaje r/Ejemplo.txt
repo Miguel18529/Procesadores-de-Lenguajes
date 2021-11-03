@@ -1,0 +1,10 @@
+VARIABLES
+    Hlist l1, l2;
+    Ilist l3;
+    Blist l4;
+    Integer i, j;
+    Boolean b;
+ASIGNACIONES
+    l1=[true, or(true, b)];
+    l1=[true, 1];
+    l3=[true, 1];
