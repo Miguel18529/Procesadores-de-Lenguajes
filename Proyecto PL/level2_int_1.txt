@@ -1,0 +1,20 @@
+PROGRAMA
+VARIABLES
+   a,b:LOG;
+   i,j:NUM;
+   s:SEQ(NUM);
+   t:SEQ(LOG);
+SUBPROGRAMAS
+   FUNCION verdadero(LOG a2, LOG b2) dev (LOG r, NUM h2)
+      VARIABLES
+      h:NUM;
+      INSTRUCCIONES
+        w22 = 0;
+         r, h, y45 = T, 2;
+         dev r;
+   FFUNCION
+
+INSTRUCCIONES
+   j=0;
+   asignar(i,1*(j+2));
+   mostrar(i);
