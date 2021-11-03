@@ -1,0 +1,16 @@
+ESQUEMA FUENTE
+ estudiante(NOMBRE, NACIMIENTO, DNI)
+ empleado(NOMBRE, DNI, TELEFONO)
+DATOS FUENTE
+ estudiante(Axel,1980,12122345)
+ estudiante(Lorenzo,1982,10345321)
+ estudiante(Antonio,1979,87654456)
+ empleado(Axel,12122345,616234345)
+ empleado(Manuel,50545318,617876654)
+ESQUEMA DESTINO
+ persona(NOMBRE, NACIMIENTO, DNI, TELEFONO)
+RESTRICCIONES
+ VAR x,y,z,u;
+ estudiante(x,y,z) implica persona(x,y,z,u)
+ VAR x,y,z,u;
+ empleado(x,y,z) implica persona(x,u,y,z)
