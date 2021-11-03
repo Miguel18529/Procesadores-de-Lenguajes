@@ -1,0 +1,31 @@
+DECISION DE DISEÑO 1: detectar expresiones ambiguas.
+
+Posibles casos de expresiones:
+
+1) Variables pre-asignadas: no son ambiguas.
+
+2) Variables no pre-asignadas: por defecto son todas ambiguas.
+El estado de una variable no-preasignada puede pasar a "no ambigua" si encontramos
+una asignación donde la variable recibiera una expresion no ambigua.
+Una opcion de diseño es emplear una memoria para almacenar esta información.
+La estructura de la memoria:
+
+variable ---> centinela de ambiguedad
+
+(ACABA DE APARECER OTRA DECISIÓN DE DISEÑO)
+
+DECISION DE DISEÑO 2: establecer la ambigüedad de las variables declaradas.
+Toda variable declarada es ambigua, inicialmente.
+Por ello, en la memoria estableceremos la siguiente correspondencia a
+medida que vayamos analizando el bloque de variables declaradas:
+variable ---> VERDADERO
+
+(CONTINUAMOS CON LA DECISION DE DISEÑO 1)
+
+3) Números: son ambiguos.
+
+4) PA expresion PC: para determinar la ambigüedad de esta expresion
+es necesario continuar con el análisis de la expresión interna.
+
+5) Expresion binaria: es ambigua si una cualquiera de las sub-expresiones lo es.
+Una opcion de diseño es asociar un centinela a cada parte de la expresión.

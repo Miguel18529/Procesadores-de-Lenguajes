@@ -1,0 +1,6 @@
+VARIABLES x,y,z;
+INSTRUCCIONES
+x=1;
+y=2*(x+7);
+z=z+1;
+x=z();
