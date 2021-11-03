@@ -1,4 +1,4 @@
-// Generated from C:/Users/amigo/IdeaProjects/EXPL/src\Anasint.g4 by ANTLR 4.8
+// Generated from C:/Users/amigo/IdeaProjects/Procesadores-de-Lenguajes/EXPL/src\Anasint.g4 by ANTLR 4.8
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.*;
