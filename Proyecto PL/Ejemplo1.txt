@@ -1,0 +1,8 @@
+PROGRAMA
+VARIABLES
+
+SUBPROGRAMAS
+INSTRUCCIONES
+   si (5 < 4 && 14 != 5) entonces
+
+   fsi

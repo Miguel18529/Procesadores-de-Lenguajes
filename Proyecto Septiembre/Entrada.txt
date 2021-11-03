@@ -1,0 +1,38 @@
+ESPECIFICACION
+
+CLASES:
+CLASE Persona(nombre:TXT, edad: NUM)
+CLASE Estudiante(curso: NUM, grado: TXT)
+CLASE Profesor(asignatura: TXT)
+CLASE EstudianteProfesor()
+
+ASOCIACIONES:
+ASOCIACION enseña(clase: Profesor, rol: profesores, multiplicidad: +,
+		  clase: Estudiante, rol: estudiantes, multiplicidad: +)
+
+GENERALIZACIONES:
+GENERALIZACION (superclase: Estudiante, subclases: EstudianteProfesor)
+GENERALIZACION (superclase: Profesor, subclases: EstudianteProfesor)
+GENERALIZACION (superclase: Persona, subclases: Profesor)
+GENERALIZACION (superclase: Persona, subclases: Estudiante)
+
+RESTRICCIONES:
+
+INSTRUCCIONES:
++OBJETO profesor1(clase = Profesor, asignatura = "PL", nombre = "Pedro Garcia Perez", edad = 38)
++OBJETO profesorestudiante1(clase = EstudianteProfesor, asignatura = "PL", nombre = "Antonio Toval Ruiz", edad = 48, curso = 4, grado = "IS")
++OBJETO estudiante1(clase = Estudiante, nombre = "Teresa Arza Mino", edad = 22, curso = 3, grado = "IT")
++OBJETO estudiante2(clase = Estudiante, nombre = "Pio Pergamo Martinez", edad = 21, curso = 3, grado = "IS")
++ENLACE enseña1(asociacion = enseña, objeto = profesor1, objeto = estudiante1)
++ENLACE enseña2(asociacion = enseña, objeto = profesor1, objeto = profesorestudiante1)
++ENLACE enseña3(asociacion = enseña, objeto = profesorestudiante1, objeto = estudiante1)
++ENLACE enseña4(asociacion = enseña, objeto = profesorestudiante1, objeto = estudiante2)
+CONSISTENCIA
+-ENLACE enseña4
+CONSISTENCIA
++ENLACE enseña4(asociacion = enseña, objeto = profesorestudiante1, objeto = estudiante2)
+CONSISTENCIA
+-OBJETO profesor1
++OBJETO profesor2(clase = Profesor, asignatura = "PL", nombre = "Enrique Muñoz Encina", edad = 51)
++ENLACE enseña5(asociacion = enseña, objeto = profesor2, objeto = estudiante1)
+CONSISTENCIA

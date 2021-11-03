@@ -1,0 +1,15 @@
+FUNCION mayor(SEQ(NUM) s, LOG g, NUM h) dev (NUM i, NUM max)
+VARIABLES
+j: NUM;
+INSTRUCCIONES
+j=0;
+max=s[j];
+mientras(j<=ultima_posicion(s)) hacer
+si (s[j]>max) entonces
+max=s[j];
+i=j;
+fsi
+j=j+1;
+fmientras
+dev max,i; //retorno de parámetros de salida.
+FFUNCION
