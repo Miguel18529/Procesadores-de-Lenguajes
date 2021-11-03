@@ -1,0 +1,8 @@
+OBJETIVO: Realizar un analizador semántico que detecte cuando un break es inalcanzable.
+
+DECISIÓN DE DISEÑO 1:  Almacenar en un almacen global de manera secuencial las instrucciones de iteración y selección.
+    1.1: Por cada instrucción de iteración y selección, se añade un valor booleano al almacén, por defecto será FALSO.
+    1.2: Si encontramos un BREAK y el último elemento del almacén es FALSO, se cambia a VERDADERO, indicando que ya se ha pasado por un BREAK.
+    1.3: Si encontramos un BREAK y el último elemento del almacén es VERDADERO, significa que ese BREAK es inalcanzable pues ya se ha roto la ejecución en un BREAK anterior, informar al programador con un mensaje por consola.
+    1.4: Cuando se finaliza una iteración un una selección, se elimina su valor booleano correspondiente del almacén.
+    1.5: Si se encuentra un BREAK sin tener nada contenido en el almacén, se añade VERDADERO al almacén.

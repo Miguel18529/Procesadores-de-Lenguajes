@@ -1,0 +1,55 @@
+OBJETIVO: Realizar un analizador semántico que detecte cuando un break es inalcanzable.
+
+DECISIÓN DE DISEÑO 1:  Almacenar en un almacen global de manera secuencial un centinela booleano por cada instrucción de iteración y selección.
+                       Este almacén hará la función de pila (LIFO)
+                       Los valores booleanos almacenados, indicarán si ya se ha alcanzado un break (VERDADERO) o si no (FALSO).
+
+    1.1: Por cada instrucción de iteración y selección, se comprueba el valor del último elemento del almacén,
+                si es VERDADERO, se añade VERDADERO al almacén,
+                si es FALSO o el almacén está vacío, se añade FALSO al almacén.
+
+    1.2: Si encontramos un BREAK y el último elemento del almacén es FALSO, se cambia a VERDADERO, indicando que ya se ha pasado por un BREAK.
+    1.3: Si encontramos un BREAK y el último elemento del almacén es VERDADERO, significa que ese BREAK es inalcanzable pues ya se ha roto la ejecución en un BREAK anterior, informar al programador con un mensaje por consola.
+    1.4: Cuando se finaliza una iteración o una selección, se elimina su valor booleano correspondiente del almacén.
+    1.5: Si se encuentra un BREAK sin tener nada contenido en el almacén, se añade VERDADERO al almacén.
+
+
+//DECISIÓN DE DISEÑO 1:
+    almacén que guarda los centinelas [cent1, cent2, cent3....]
+
+programa : instrucciones EOF ;
+
+instrucciones : instruccion instrucciones
+              | instruccion
+              ;
+
+instruccion : asignacion
+            | iteracion
+            | seleccion
+            | ruptura
+            ;
+
+asignacion : IDENT ASIG expr PyC ;
+
+iteracion : WHILE (comprobar el estado del almacén y añadir FALSO o VERDADERO según las condiciones //1.1) PA expr PC bloque (eliminar último elemento del almacén //1.4);
+
+seleccion : IF (comprobar el estado del almacén y añadir FALSO o VERDADERO según las condiciones //1.1) PA expr PC bloque (eliminar último elemento del almacén //1.4);
+
+ruptura : BREAK (Si el almacén está vacío: añadir VERDADERO. //1.5
+                 Si el último elemento del almacén es FALSO: cambiar a VERDADERO //1.2
+                 Si el último elemento del almacén es VERDADERO: mensaje de ERROR, break inalcanzable //1.3) PyC ;
+
+bloque : instruccion
+       | LLA instrucciones LLC
+       ;
+
+expr : expr_suma ((MENOR|MAYOR|MENORIGUAL|MAYORIGUAL|IGUAL|DISTINTO) expr_suma)?;
+
+expr_suma : expr_mult ((MAS|MENOS) expr_mult)*;
+
+expr_mult : expr_base ((POR|DIV) expr_base)*;
+
+expr_base : NUMERO
+          | IDENT
+          | PA expr PC
+          ;
