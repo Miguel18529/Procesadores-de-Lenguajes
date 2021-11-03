@@ -1,0 +1,12 @@
+FUNCION mayor(SEQ(NUM) s) dev (SEQ(NUM) i, NUM r)
+VARIABLES
+j, y: NUM;
+l, l2: LOG;
+seclog: SEQ(NUM);
+INSTRUCCIONES
+j=1;
+l=T;
+j=33+3+8+4+5-4;
+
+dev i, r;
+FFUNCION
