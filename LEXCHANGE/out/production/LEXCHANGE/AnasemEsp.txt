@@ -1,0 +1,45 @@
+OBJETIVO: Diseñar un analizador semántico para decidir si un programa LEXCHANGE es esemánticamente correcto.
+    - Un programa LEXCHANGE es semánticamente correcto si cada clase declarada en DATOS FUENTE pertenece a una relación definida en ESQUEMA FUENTE.
+    - Esto implica: tener el mismo nombre y mismo número de argumentos.
+
+DECISIÓN DE DISEÑO 1: Uso de un almacén que guarde la relación Nombre-Número_elementos de cada clase declarada en ESQUEMA FUENTE.
+        almacen = [nombre: número de elementos]
+
+        1.1. El almacén toma los datos de ESQUEMA FUENTE, toma el nombre de la clase y el númnero de elementos de la clase.
+            función auxiliar:
+            int cuenta_elems(elems){
+                int contador = 0;
+                para cada e en elems{
+                    contador = contador + 1;
+                }
+                devolver contador;
+            }
+
+        1.2. En DATOS FUENTE, comprobar que el nombre de las clases se encuentra en el almacén, si no lo está, dar mensaje de ERROR.
+
+        1.3. Comprobar que el número de elementos de cada clase de DATOS FUENTE coincide con el número registrado en el almacén para el nombre de la clase.
+
+GRAMÁTICA ATRIBUIDA:
+
+alamcen = []
+
+(1.1)
+esq_fuente: ESQUEMA FUENTE clases+;
+
+(añadir c:v a almacen)
+clases: c:IDENT PA n:elements (v=cont_elems(n)) PC;
+
+(devuelve n)
+elements: IDENT (añadir IDENT a n) COMA elements
+        | IDENT (añadir IDENT a n)
+        ;
+
+1.2,1.3
+datos_fuente:DATOS FUENTE datos+;
+
+datos: IDENT(comprobar que IDENT existe en almacén, si no, ERROR) PA n:atribs(comprobar que el valor de almacen[IDENT] coincide con cont_elems(n), si no, ERROR PC;
+
+(devuelve n)
+atribs: (IDENT|NUMERO)(añadir IDENT o NUMERO a n) COMA atribs
+      | (IDENT|NUMERO)(añadir IDENT o NUMERO a n)
+      ;

@@ -31,5 +31,8 @@ public class Principal {
         walker.walk(listener, tree);
         */
 
+        Anasem anasem = new Anasem();
+        anasem.visit(tree);
+
     }
 }
