@@ -18,8 +18,8 @@ COMA:',';
 PA:'(';
 PC:')';
 PyC:';';
+
 NUMERO:DIGITO+;
-IDENT_MAYUS:[A-Z]+;
 IDENT: LETRA(LETRA|DIGITO)*;
 COMENTARIO_BLOQUE: '/*' .*? '*/' -> skip;
 COMENTARIO_LINEA: '//' .*? FIN_LINEA -> skip;

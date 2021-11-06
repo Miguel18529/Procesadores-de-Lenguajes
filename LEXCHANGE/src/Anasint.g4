@@ -6,19 +6,23 @@ options{
 
 programa: esq_fuente datos_fuente esq_destino restr;
 
-esq_fuente: ESQUEMA FUENTE (IDENT PA parametros PC)+;
+esq_fuente: ESQUEMA FUENTE clases+;
 
-parametros: IDENT_MAYUS COMA parametros
-          | IDENT_MAYUS
-          ;
+clases: IDENT PA elements PC;
 
-datos_fuente:DATOS FUENTE (IDENT PA datos PC)+;
+elements: IDENT COMA elements
+        | IDENT
+        ;
 
-datos: (IDENT|NUMERO) COMA datos
-     | (IDENT|NUMERO)
-     ;
+datos_fuente:DATOS FUENTE datos+;
 
-esq_destino: ESQUEMA DESTINO (IDENT PA parametros PC)+;
+datos: IDENT PA atribs PC;
+
+atribs: (IDENT|NUMERO) COMA atribs
+      | (IDENT|NUMERO)
+      ;
+
+esq_destino: ESQUEMA DESTINO clases+;
 
 restr: RESTRICCIONES restriccion+;
 

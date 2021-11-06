@@ -1,4 +1,4 @@
-// Generated from C:/Users/amigo/IdeaProjects/LEXCHANGE/src\Anasint.g4 by ANTLR 4.8
+// Generated from C:/Users/amigo/IdeaProjects/Procesadores-de-Lenguajes/LEXCHANGE/src\Anasint.g4 by ANTLR 4.8
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
 /**
@@ -27,15 +27,25 @@ public interface AnasintListener extends ParseTreeListener {
 	 */
 	void exitEsq_fuente(Anasint.Esq_fuenteContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link Anasint#parametros}.
+	 * Enter a parse tree produced by {@link Anasint#clases}.
 	 * @param ctx the parse tree
 	 */
-	void enterParametros(Anasint.ParametrosContext ctx);
+	void enterClases(Anasint.ClasesContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link Anasint#parametros}.
+	 * Exit a parse tree produced by {@link Anasint#clases}.
 	 * @param ctx the parse tree
 	 */
-	void exitParametros(Anasint.ParametrosContext ctx);
+	void exitClases(Anasint.ClasesContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link Anasint#elements}.
+	 * @param ctx the parse tree
+	 */
+	void enterElements(Anasint.ElementsContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link Anasint#elements}.
+	 * @param ctx the parse tree
+	 */
+	void exitElements(Anasint.ElementsContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link Anasint#datos_fuente}.
 	 * @param ctx the parse tree
@@ -56,6 +66,16 @@ public interface AnasintListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitDatos(Anasint.DatosContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link Anasint#atribs}.
+	 * @param ctx the parse tree
+	 */
+	void enterAtribs(Anasint.AtribsContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link Anasint#atribs}.
+	 * @param ctx the parse tree
+	 */
+	void exitAtribs(Anasint.AtribsContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link Anasint#esq_destino}.
 	 * @param ctx the parse tree

@@ -1,4 +1,4 @@
-// Generated from C:/Users/amigo/IdeaProjects/Procesadores-de-Lenguajes/Break Inalcanzable/src\Anasint.g4 by ANTLR 4.8
+// Generated from C:/Users/amigo/IdeaProjects/Procesadores-de-Lenguajes/Break_Inalcanzable/src\Anasint.g4 by ANTLR 4.8
 import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;
 
 /**

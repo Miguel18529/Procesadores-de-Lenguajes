@@ -2,8 +2,21 @@
 <module type="JAVA_MODULE" version="4">
   <component name="NewModuleRootManager" inherit-compiler-output="true">
     <exclude-output />
-    <content url="file://$MODULE_DIR$" />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/Break Inalcanzable/gen" isTestSource="false" generated="true" />
+      <sourceFolder url="file://$MODULE_DIR$/Break Inalcanzable/src" isTestSource="false" />
+      <excludeFolder url="file://$MODULE_DIR$/Break Inalcanzable/out" />
+    </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/Break Inalcanzable/antlr-4.8-complete.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
   </component>
 </module>
