@@ -1,0 +1,48 @@
+OBJETIVO: Crear un analizador semántico que detecte el uso de variables no declaradas en un programa BQL.
+    Una variable se considera no declarada si ésta al usarse, no se encuentra en la declarción de variables del bloque correspondiente.
+    Las variables declaradas en un bloque, se propagan a los bloques inferiores, pero nunca al revés.
+
+    DECISIÓN DE DISEÑO 1: Crear un almacén que guarde las variables declaradas por cada bloque.
+        Este almacén funcionará a modo de PILA (LIFO): en cada instrucción BLOQUE almacenaremos en una entrada de la pila las variables declaradas en ese bloque.
+        {[var1, var2...], [var1, var2...]}
+
+        1.1 En cada instrucción BLOQUE añadios las variables declaradas al final del almacén.
+        1.2 Dentro de cada bloque, cada vez que en una asignación se asigna a una variable un valor, comprobar que todas las variables implicadas se encuentren en algna entrada del almacén,
+            si alguna no lo está, mostrar un mensaje de ERROR indicando que se hace uso de variables no declaradas.
+        1.3 Al alcanzar un FBLOQUE, se elimina del almacén la última entrada, ya que las variables de cada bloque solo son válidas para las instrucciones contenidas dentro del mismo.
+
+GRAMÁTICA ATRIBUIDA:
+
+almacen = []
+
+programa: bloque EOF;
+
+(decisión 1.1)
+(almacenar m en el almacen)
+bloque: BLOQUE m:variables m=variables declaradas en el bloque} instrucciones FBLOQUE (decisión 1.3 {eliminar última entrada del almacén});{
+
+(parámetro de salida m)
+variables: v:vars {añadir v a m}PyC;
+
+(parámetro de salida v)
+vars: IDENT{añadir IDENT a v} COMA vars
+    | IDENT {añadir IDENT a v}
+    ;
+
+instrucciones: (asignacion|bloque)*;
+
+(decisión 1.2)
+asignacion: IDENT {comprobar que IDENT se encuentra en alguna entrada del almacén, si no, ERROR}IGUAL expr{comprobar que las variables
+                                                                                                              dentro de expr están contenidas en
+                                                                                                              alguna entrada del almacén}PyC;
+
+expr: expr1 (MAS|MENOS) expr
+    | expr1;
+
+expr1: expr2 (POR|DIV) expr1
+     | expr2;
+
+expr2: NUMERO
+     | IDENT {comprobar que IDENT está en el almacén, si no, ERROR}
+     | PA expr PC
+     ;

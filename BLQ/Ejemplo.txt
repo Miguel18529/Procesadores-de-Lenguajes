@@ -1,0 +1,9 @@
+BLOQUE x,z;
+ x = 1;
+ m = 2*(x+7);
+ BLOQUE x,m;
+ x = m+z;
+ n = 3;
+ FBLOQUE
+ z = m+1;
+FBLOQUE
