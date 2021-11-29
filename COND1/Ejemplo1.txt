@@ -1,0 +1,18 @@
+PROGRAMA
+VARIABLES x,y;
+INSTRUCCIONES
+ x = 1;
+ y = 2;
+ mostrar(x,y);
+ si (x>y) entonces
+ ruptura;
+ x=y;
+ sino
+ x=y;
+ mostrar(x,y);
+ ruptura;
+ si (x==y) entonces
+ x=10; y=20;
+ finsi
+ finsi
+ mostrar(x,y);
