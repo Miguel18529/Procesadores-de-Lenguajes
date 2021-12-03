@@ -1,0 +1,167 @@
+1. OBJETIVO: Interprete para el lenguaje COND1.
+
+2. DECISIONES:
+	1. Memoria para almacenar el valor de cada variable.
+	   Las variables, inicialmente tendrán el valor 0.
+		[x, 0
+		 y, 0]
+	
+	2. Instrucciones se procesan secuencialmente.
+		a. Asignaciones: el valor de la variable en la memoria cambia por el nuevo valor asignado.
+						 Hay que evaluar la expresión asignada.
+		b. Condicionales: evaluar la condición.
+						  a cada bloque del condicional se le asocia un centinela que indique si hay que procesar o no.
+		c. Mostrar: suponemos que el intérprete cuenta con esta función y solo hay que consultar en memoria las variables correspondientes.
+		d. Ruptura: actualizar el valor del centinela correspondiente al bloque en el que se encuentra la ruptura con valor "no hay que procesar".
+	
+	3. El bloque más externo de instrucciones también tiene asignado un centinela inicializado a "Hay que interpretar".
+
+	4. Los centinelas externos condicionan a los internos.
+	   El valor de la condición condiciona los centinelas internos.
+	   cent_si=valor_cond Y cent_ext
+	   cent_sino=NO(valor_cond) Y cent_ext
+	   
+	5. El efecto de cada instrucción está condicionado por el valor de su centinela, una instrucción se procesa si el centinela indica "Hay que procesar", si no, no se procesa.
+	
+GRAMÁTICA ATRIBUIDA
+
+Global:
+	memoria para almacenar el valor de las variables (1)
+	
+programa: PROGRAMA variables instrucciones;
+
+variabes: VARIABLES (lista_vars)? PUNTOYCOMA;
+
+lista_vars: VAR {actualizar memoria con (VAR,0) } (1) COMA lista_vars
+		  | VAR {actualizar memoria con (VAR,0) } (1)
+		  
+instrucciones INSTRUCCIONES {cent=hay que interpretar} (lista_instrucciones[cent])?; (3)
+
+lista_instrucciones[cent]:cent_nuevo=instruccion[cent] (lista_instrucciones[cent_nuevo])? (3);
+
+instruccion[cent] dev cent_nuevo: asignacion[cent] {cent_nuevo=cent} (3)
+				 | condicional[cent] {cent_nuevo=cent} (3)
+				 | cent_nuevo=ruptura[cent] (3)
+				 | impresion[cent] {cent_nuevo=cent} (3)
+				 ;
+
+asignacion[cent]: VAR ASIG v=expr PUNTOYCOMA {si cent==hay que interpretar entonces (3) actualizar memoria con (VAR,v) (2,a) fsi };
+
+condicional[cent_ext]: SI PARENTESISABIERTO v=condicion PARENTESISCERRADO ENTONCES (2.b) {evaluamos la condición v}
+							{cent_int=cent_ext Y v} (4)
+							lista_instrucciones[cent_int] (alternativa[NO cent_int])? 
+					   FINSI;
+
+alternativa[cent_int]: SINO lista_instrucciones[cent_int];
+
+ruptura[cent] dev cent_nuevo: RUPTURA PUNTOYCOMA {si cent==hay que interpretar entonces	(3) 
+										cent_nuevo= No hay que interpretar (2.d)
+										sino
+											cent_nuevo= No hay que interpretar (2.d)
+										fsi};
+
+impresion[cent]: MOSTRAR PARENTESISABIERTO l=vars PARENTESISCERRADO PUNTOYCOMA
+					{si cent==Hay que interpretar entonces (3)
+						consultar el valor de cada variable de l en el almacen y mostrar por consola (2.c)
+					fsi} ;
+
+condicion dev v: v1=expr MAYOR v2=expr {si (v1>v2) entonces v=cierto sino v=falso fsi} (2.b)
+ | v1=expr MENOR v2=expr {si (v1<v2) entonces v=cierto sino v=falso fsi} (2.b)
+ | v1=expr IGUAL v2=expr {si (v1==v2) entonces v=cierto sino v=falso fsi} (2.b)
+ | v1=expr DISTINTO v2=expr {si (v1!=v2) entonces v=cierto sino v=falso fsi} (2.b)
+ | v1=expr MAYORIGUAL v2=expr {si (v1>=v2) entonces v=cierto sino v=falso fsi} (2.b)
+ | v1=expr MENORIGUAL v2=expr {si (v1<=v2) entonces v=cierto sino v=falso fsi} (2.b)
+ ;
+ 
+ 
+expr dev v: v1=expr MAS v2=expr {v=v1+v2} (2.a)
+ | v1=expr MENOS v2=expr {v=v1-v2}
+ | v1=expr POR v2=expr {v=v1*v2}
+ | VAR {v=valor de VAR en el almacen}
+ | NUM {v=NUM}
+ | PARENTESISABIERTO v=expr PARENTESISCERRADO
+ ;
+
+
+Ejemplo:
+
+PROGRAMA
+
+	VARIABLES x, y;		memoria=[(x,0), (y,0)]
+	
+	INSTRUCCIONES			cent_ext=hay que interpretar
+		si (x>y) entonces			cent_int_si=No hay que interpretar
+			y=0;						memoria=[(x,0), (y,0)]
+			si (x==y) entonces			cent_int_si_si=No hay que interpretar
+				x=7;						memoria=[(x,0), (y,0)]
+			fsi
+		sino						cent_int_sino=Hay que interpretar
+			y=1;							memoria=[(x,0), (y,1)]
+		fsi
+
+
+
+SOLUCIÓN (IMPLEMENTACIÓN)
+
+OBJETIVO: Implementar en Antlr4 un intérprete para el lenguaje COND1
+		  (ver detalles en el diseño de la solución)
+
+
+DECISIONES:
+	(1)	Implementación basada en un visitor con Integer como parámetro. El integer simula los valores de los centinelas de interpretación
+		(hay_que_interpretar se representa con el 1, no_hay_que_interpretar se representa con el 0) y el valor de las condiciones (cierto se representa con1, falso con el 0). 
+		Implementa de un modo más natural el tipo entero del lenguaje.
+		
+	(2) Para la evaluación de condicionales, hay que crear funciones auxiliares para la conjunción y la negación adaptadas a nuestros valores de los centinelas y las condiciones (1 ó 0).
+			funcion conjuncionEntera(v1, v2){
+				resultado = 0
+				si v1=v2 entonces
+					resultado=v1
+				fsi
+				devolver resultado
+			}
+			
+			funcion negacionEntera(v){
+				resultado=0
+				si v==0 entonces
+					resultado=1
+				fsi
+				devolver resultado
+			}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

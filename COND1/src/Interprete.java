@@ -24,7 +24,7 @@ public class Interprete extends AnasintBaseVisitor<Integer>{
             String var = ctx.VAR().getText();
             almacen.put(var, 0);
         }
-        System.out.println(almacen);
+        //System.out.println(almacen + " " + ctx.VAR().getSymbol().getLine());
         return null;
     }
 
@@ -59,18 +59,18 @@ public class Interprete extends AnasintBaseVisitor<Integer>{
         if(ctx.asignacion()!=null){
             visitAsignacion(ctx.asignacion(), cent);
             cent_nuevo = cent;
-            System.out.println("cent asignaicion: " + cent_nuevo + "->" + ctx.asignacion().ASIG().getSymbol().getLine());
+            //System.out.println("cent asignaicion: " + cent_nuevo + "->" + ctx.asignacion().ASIG().getSymbol().getLine());
         } else if(ctx.condicional()!=null){
             visitCondicional(ctx.condicional(), cent);
             cent_nuevo = cent;
-            System.out.println("cent condiconal: " + cent_nuevo + "->" + ctx.condicional().ENTONCES().getSymbol().getLine());
+            //System.out.println("cent condiconal: " + cent_nuevo + "->" + ctx.condicional().ENTONCES().getSymbol().getLine());
         } else if(ctx.ruptura()!=null){
             cent_nuevo=visitRuptura(ctx.ruptura(), cent);
-            System.out.println("cent ruptura: " + cent_nuevo + "->" + ctx.ruptura().RUPTURA().getSymbol().getLine());
+            //System.out.println("cent ruptura: " + cent_nuevo + "->" + ctx.ruptura().RUPTURA().getSymbol().getLine());
         } else{
             visitImpresion(ctx.impresion(), cent);
             cent_nuevo=cent;
-            System.out.println("cent impresion: " + cent_nuevo + "->" + ctx.impresion().MOSTRAR().getSymbol().getLine());
+            //System.out.println("cent impresion: " + cent_nuevo + "->" + ctx.impresion().MOSTRAR().getSymbol().getLine());
         }
         return cent_nuevo;
     }
@@ -79,7 +79,7 @@ public class Interprete extends AnasintBaseVisitor<Integer>{
     public Integer visitAsignacion(Anasint.AsignacionContext ctx, Integer cent) {
             Integer v = visitExpr(ctx.expr());
             if(cent==1){
-                System.out.println("Añado: "+ ctx.VAR().getText() + ": " + v + " linea: " + ctx.VAR().getSymbol().getLine());
+                //System.out.println("Añado: "+ ctx.VAR().getText() + ": " + v + " linea: " + ctx.VAR().getSymbol().getLine());
                 almacen.put(ctx.VAR().getText(), v);
             }
 
@@ -90,9 +90,10 @@ public class Interprete extends AnasintBaseVisitor<Integer>{
     //							lista_instrucciones[cent_int] (alternativa[NO cent_int])?
     //					   FINSI;
     public Integer visitCondicional(Anasint.CondicionalContext ctx, Integer cent_ext) {
+        //System.out.println("Almacen condicional: " + almacen);
         Integer v = visitCondicion(ctx.condicion());
         Integer cent_int=conjuncionEntera(cent_ext, v);
-        System.out.println(cent_int);
+        //System.out.println(cent_int);
         visitLista_instrs(ctx.lista_instrs(), cent_int);
         if(ctx.alternativa()!=null){
             visitAlternativa(ctx.alternativa(), negacionEntera(cent_int));
@@ -189,10 +190,10 @@ public class Interprete extends AnasintBaseVisitor<Integer>{
         Integer cent_nuevo;
         if(cent==1){
             cent_nuevo=0;
-            System.out.println("BREAK CAMBIO PARAR " + "linea: " + ctx.RUPTURA().getSymbol().getLine());
+            //System.out.println("BREAK CAMBIO PARAR " + "linea: " + ctx.RUPTURA().getSymbol().getLine());
         } else{
             cent_nuevo=0;
-            System.out.println("BREAK SIGO PARAO " + ctx.RUPTURA().getSymbol().getLine());
+            //System.out.println("BREAK SIGO PARAO " + ctx.RUPTURA().getSymbol().getLine());
         }
         return cent_nuevo;
     }
@@ -207,7 +208,6 @@ public class Interprete extends AnasintBaseVisitor<Integer>{
         }
         return null;
     }
-
 
     //función auxiliar conjunciones con enteros
     public static Integer conjuncionEntera(Integer v1, Integer v2){

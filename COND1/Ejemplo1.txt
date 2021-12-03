@@ -5,14 +5,14 @@ INSTRUCCIONES
  y = 2;
  mostrar(x,y);
  si (x>y) entonces
- ruptura;
- x=y;
+    ruptura;
+    x=y;
  sino
- x=y;
- mostrar(x,y);
- ruptura;
- si (x==y) entonces
- x=10; y=20;
- finsi
+    x=y;
+    mostrar(x,y);
+    ruptura;
+    si (x==y) entonces
+        x=10; y=20;
+    finsi
  finsi
  mostrar(x,y);
