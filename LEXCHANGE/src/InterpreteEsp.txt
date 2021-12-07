@@ -1,0 +1,35 @@
+Objetivo: Realización de un intérprete que genere tuplas de la base de datos destino en un txt a parte.
+
+DECISIONES:
+    DECISIÓN DE DISEÑO 1: Guardar en un almacen las entradas de DATOS FUENTE.
+    Gramática atribuida:
+
+        almacen_fuente = []
+        datos_fuente:DATOS FUENTE datos+;
+
+        datos: IDENT PA v:atribs PC {Almacenamos en almacen_fuente IDENT y v};
+
+        atribs dev v: i:(IDENT|NUMERO) COMA c:atribs{añadir i y c a v}
+              | i:(IDENT|NUMERO) {añadir i a v}
+              ;
+
+    DECISIÓN DE DISEÑO 2: Guardar en un almacén las variables y nombres de las implicaciones de las restricciones, por ejemplo:
+        VAR x,y,z,u;
+         estudiante(x,y,z) implica persona(x,y,z,u)
+
+         Almacenar la relación estudiante x y z:persona x y z u
+
+    Gramática atribuida:
+
+        almacen_relacion = []
+        restriccion: decl_vars imp:implicacion {Almacenar imp en almacen_relacion};
+
+        implicacion dev imp: i1:IDENT PA vars1:variables {v1=i1+vars1} PC IMPLICA i2:IDENT PA vars2:variables{v2=i2+vars2} PC {almacenar la relación v1:v2 en imp};
+
+        variables dev vars: i:IDENT COMA v:variables {Almacenar i y v en vars}
+                 | i:IDENT {Almacenar i en vars}
+                 ;
+
+    DECISIÓN DE DISEÑO 3: Aplicar las transformaciones de DATOS FUENTE a ESQUEMA DESTINO aplicando las restricciones. Para ello se deben comprobar los almacenes:
+        Para cada entrada en almacen_fuente, se toma el nombre de la entrada y sus variables, entonces comprobamos en almacen_relacion si existe el nombre en la clave de alguna de sus entradas.
+            Si existe......................
