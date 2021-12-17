@@ -1,0 +1,26 @@
+DIAGRAMA diagrama3
+VARIABLES a b c d
+ESTADOS
+estado1 a=6; b=1; c=0; d=0;
+estado2
+estado3
+estado4
+estado5
+estado6 d=c; c=a; a=d;
+estado7
+estado8 d=c; c=a; a=d; d=c; c=b; b=d;
+estado9 d=c; c=b; b=d;
+estado10 d=c; c=b; b=d; d=c; c=a; a=d;
+estado11 d=b; b=a; a=d;
+INICIAL estado1
+TRANSICIONES
+estado1 estado2 b>a;
+estado1 estado3 a>=b;
+estado2 estado4 b>=c;
+estado2 estado5 c>b;
+estado3 estado6 b>=c;
+estado3 estado7 c>b;
+estado4 estado8 a>c;
+estado4 estado9 c>=a;
+estado7 estado10 a>c;
+estado7 estado11 c>=a;

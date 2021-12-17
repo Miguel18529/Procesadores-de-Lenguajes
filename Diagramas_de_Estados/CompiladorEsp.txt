@@ -1,0 +1,82 @@
+OBJETIVO: Crear un compilador/traductor de diagrama de estados a java.
+
+DECISIÓN DE DISEÑO 1: Los estados se representan asignando las variables.
+    ej: Estado1: a=1, b=2,...
+
+DECISIÓN DE DISEÑO 2: Las transiciones entre estados se representan mediante bloques if.
+
+DECISIÓN DE DISEÑO 3: Las condiciones de las transiciones son excluyentes.
+
+DECISIÓN DE DISEÑO 4: El estado final se decide siguiendo un centinela con valor inicial a falso, que se hace verdadero al pasar por un estado final.
+
+DECISIÓN DE DISEÑO 5: Memoria para almacenar la relación entre los estados y sus variables.
+    ej: estado | asignaciones
+        estado1| a=1, b=2..
+
+DECSIÓN DE DISEÑO 6: Almacén para guardar las transiciones de la forma: estado incial, estado destino, condición.
+
+GRAMÁTICA ATRIBUIDA:
+
+inicializar almacen = []
+
+diagrama: {generar código de inicio de clase}
+            {generar código de inicio de main}
+            DIAGRAMA IDENT variables estados inicial transiciones
+            {generar código final de main}
+            {generar código final de clase}EOF;
+
+variables: VARIABLES vars {generar código de inicialización de variables};
+
+vars: IDENT vars {almacenar IDENT con el valor 0 en el almacén}
+ | IDENT {almacenar IDENT con el valor 0 en el almacén}
+ ;
+
+estados: ESTADOS (estado)* {generar código de estados};
+
+estado: IDENT asignaciones ;
+
+asignaciones: asignacion asignaciones
+ | asignacion
+ ;
+
+asignacion: IDENT ASIG term PUNTOYCOMA ;
+
+inicial: INICIAL IDENT ;
+
+transiciones: TRANSICIONES (transicion)* ;
+
+transicion: IDENT IDENT condicion PUNTOYCOMA ;
+
+condicion: condicion Y condicion #condY
+ | condicion O condicion #condO
+ | NO condicion #condNo
+ | PARENTESISABIERTO condicion PARENTESISCERRADO #condPar
+ | term MAYOR term #condMayor
+ | term MENOR term #condMenor
+ | term IGUAL term #condIgual
+ | term DISTINTO term #condDistinto
+ | term MAYORIGUAL term #condMayorIgual
+ | term MENORIGUAL term #condMenorIgual
+ ;
+
+term: NUMERO | IDENT ;
+
+
+generar código de inicio de clase:
+    Escribir: "import java.IO.*;
+               public class Ejemplo {"
+
+generar código de inicio de main:
+    Escribir: "public static void main(String args[]){"
+
+generar código final de main:
+    Escribir: "}"
+
+generar código final de clase:
+    Escribir: "}"
+
+generar código de inicialización de variables:
+    Escribir: "Integer" + nombre variables del almacén separadas por comas + ";"
+
+generar código de estados:
+    Escribir:
