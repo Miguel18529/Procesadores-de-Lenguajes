@@ -1,4 +1,4 @@
-// Generated from C:/Users/amigo/IdeaProjects/Diagramas_de_Estados/src\Anasint.g4 by ANTLR 4.8
+// Generated from C:/Users/amigo/IdeaProjects/Procesadores-de-Lenguajes/Diagramas_de_Estados/src\Anasint.g4 by ANTLR 4.8
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.*;
@@ -35,9 +35,10 @@ public class Anasint extends Parser {
 
 	private static String[] makeLiteralNames() {
 		return new String[] {
-			null, "' '", "'\t'", null, "'DIAGRMA'", "'VARIABLES'", "'ESTADOS'", "'INICIAL'", 
-			"'TRANSICIONES'", "'>'", "'<'", "'=='", "'!='", "'>='", "'<='", "'+'", 
-			"'-'", "'*'", "';'", "','", "'='", "'Y'", "'O'", "'NO'", "'('", "')'"
+			null, "' '", "'\t'", null, "'DIAGRAMA'", "'VARIABLES'", "'ESTADOS'", 
+			"'INICIAL'", "'TRANSICIONES'", "'>'", "'<'", "'=='", "'!='", "'>='", 
+			"'<='", "'+'", "'-'", "'*'", "';'", "','", "'='", "'Y'", "'O'", "'NO'", 
+			"'('", "')'"
 		};
 	}
 	private static final String[] _LITERAL_NAMES = makeLiteralNames();
@@ -246,8 +247,8 @@ public class Anasint extends Parser {
 		try {
 			setState(38);
 			_errHandler.sync(this);
-			switch (_input.LA(1)) {
-			case IDENT:
+			switch ( getInterpreter().adaptivePredict(_input,0,_ctx) ) {
+			case 1:
 				enterOuterAlt(_localctx, 1);
 				{
 				setState(35);
@@ -256,13 +257,13 @@ public class Anasint extends Parser {
 				vars();
 				}
 				break;
-			case ESTADOS:
+			case 2:
 				enterOuterAlt(_localctx, 2);
 				{
+				setState(37);
+				match(IDENT);
 				}
 				break;
-			default:
-				throw new NoViableAltException(this);
 			}
 		}
 		catch (RecognitionException re) {
@@ -1160,13 +1161,13 @@ public class Anasint extends Parser {
 		"\2\16:\3\2\2\2\20?\3\2\2\2\22B\3\2\2\2\24I\3\2\2\2\26m\3\2\2\2\30z\3\2"+
 		"\2\2\32\33\7\6\2\2\33\34\7\35\2\2\34\35\5\4\3\2\35\36\5\b\5\2\36\37\5"+
 		"\20\t\2\37 \5\22\n\2 !\7\2\2\3!\3\3\2\2\2\"#\7\7\2\2#$\5\6\4\2$\5\3\2"+
-		"\2\2%&\7\35\2\2&)\5\6\4\2\')\3\2\2\2(%\3\2\2\2(\'\3\2\2\2)\7\3\2\2\2*"+
-		".\7\b\2\2+-\5\n\6\2,+\3\2\2\2-\60\3\2\2\2.,\3\2\2\2./\3\2\2\2/\t\3\2\2"+
-		"\2\60.\3\2\2\2\61\62\7\35\2\2\62\63\5\f\7\2\63\13\3\2\2\2\64\65\5\16\b"+
-		"\2\65\66\5\f\7\2\669\3\2\2\2\679\3\2\2\28\64\3\2\2\28\67\3\2\2\29\r\3"+
-		"\2\2\2:;\7\35\2\2;<\7\26\2\2<=\5\30\r\2=>\7\24\2\2>\17\3\2\2\2?@\7\t\2"+
-		"\2@A\7\35\2\2A\21\3\2\2\2BF\7\n\2\2CE\5\24\13\2DC\3\2\2\2EH\3\2\2\2FD"+
-		"\3\2\2\2FG\3\2\2\2G\23\3\2\2\2HF\3\2\2\2IJ\7\35\2\2JK\7\35\2\2KL\5\26"+
+		"\2\2%&\7\35\2\2&)\5\6\4\2\')\7\35\2\2(%\3\2\2\2(\'\3\2\2\2)\7\3\2\2\2"+
+		"*.\7\b\2\2+-\5\n\6\2,+\3\2\2\2-\60\3\2\2\2.,\3\2\2\2./\3\2\2\2/\t\3\2"+
+		"\2\2\60.\3\2\2\2\61\62\7\35\2\2\62\63\5\f\7\2\63\13\3\2\2\2\64\65\5\16"+
+		"\b\2\65\66\5\f\7\2\669\3\2\2\2\679\3\2\2\28\64\3\2\2\28\67\3\2\2\29\r"+
+		"\3\2\2\2:;\7\35\2\2;<\7\26\2\2<=\5\30\r\2=>\7\24\2\2>\17\3\2\2\2?@\7\t"+
+		"\2\2@A\7\35\2\2A\21\3\2\2\2BF\7\n\2\2CE\5\24\13\2DC\3\2\2\2EH\3\2\2\2"+
+		"FD\3\2\2\2FG\3\2\2\2G\23\3\2\2\2HF\3\2\2\2IJ\7\35\2\2JK\7\35\2\2KL\5\26"+
 		"\f\2LM\7\24\2\2M\25\3\2\2\2NO\b\f\1\2OP\7\31\2\2Pn\5\26\f\nQR\7\32\2\2"+
 		"RS\5\26\f\2ST\7\33\2\2Tn\3\2\2\2UV\5\30\r\2VW\7\13\2\2WX\5\30\r\2Xn\3"+
 		"\2\2\2YZ\5\30\r\2Z[\7\f\2\2[\\\5\30\r\2\\n\3\2\2\2]^\5\30\r\2^_\7\r\2"+

@@ -1,4 +1,4 @@
-// Generated from C:/Users/amigo/IdeaProjects/Diagramas_de_Estados/src\Anasint.g4 by ANTLR 4.8
+// Generated from C:/Users/amigo/IdeaProjects/Procesadores-de-Lenguajes/Diagramas_de_Estados/src\Anasint.g4 by ANTLR 4.8
 import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;
 
 /**

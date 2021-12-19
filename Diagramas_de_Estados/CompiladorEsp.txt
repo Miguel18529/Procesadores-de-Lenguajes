@@ -14,36 +14,46 @@ DECISIÓN DE DISEÑO 5: Memoria para almacenar la relación entre los estados y 
         estado1| a=1, b=2..
 
 DECSIÓN DE DISEÑO 6: Almacén para guardar las transiciones de la forma: estado incial, estado destino, condición.
+    ej: e_inicial | e_destino | condición
+        estado1   | estado2   | (x<y)
+
+DECISIÓN DE DISEÑO 7: Almacén para guardar el estado de las variables a lo largo del tiempo, inicialmente, en la declaración el valor de cada variable será 0.
+    ej: variable | valor
+        x        | 1
+        y        | 2
 
 GRAMÁTICA ATRIBUIDA:
 
-inicializar almacen = []
+centinela_estado_final = falso (4)
+inicializar almacen_estados = [] (5)
+inicializar almacen_transiciones = [] (6)
+inicializar almacen_variables = [] (7)
 
 diagrama: {generar código de inicio de clase}
             {generar código de inicio de main}
             DIAGRAMA IDENT variables estados inicial transiciones
-            {generar código final de main}
-            {generar código final de clase}EOF;
+            EOF;
 
 variables: VARIABLES vars {generar código de inicialización de variables};
 
-vars: IDENT vars {almacenar IDENT con el valor 0 en el almacén}
- | IDENT {almacenar IDENT con el valor 0 en el almacén}
+vars: IDENT {almacenar IDENT con el valor 0 en el almacén_variables (7)} vars
+ | IDENT {almacenar IDENT con el valor 0 en el almacén_variables (7)}
  ;
 
-estados: ESTADOS (estado)* {generar código de estados};
+estados: ESTADOS (estado)* ;
 
-estado: IDENT asignaciones ;
+estado: IDENT v:asignaciones {almacenar en almacen_estados IDENT:v (5)};
 
-asignaciones: asignacion asignaciones
- | asignacion
+asignaciones dev v: v1:asignacion asignaciones {añadir v1 a v (5)}
+ | v1:asignacion {añadir v1 a v (5)}
  ;
 
-asignacion: IDENT ASIG term PUNTOYCOMA ;
+asignacion dev v: v1:IDENT ASIG v2:term PUNTOYCOMA añadir v1 y v2 a v;
 
 inicial: INICIAL IDENT ;
 
-transiciones: TRANSICIONES (transicion)* ;
+transiciones: TRANSICIONES (transicion)* {generar código final de main}
+                                         {generar código final de clase};
 
 transicion: IDENT IDENT condicion PUNTOYCOMA ;
 
@@ -59,7 +69,9 @@ condicion: condicion Y condicion #condY
  | term MENORIGUAL term #condMenorIgual
  ;
 
-term: NUMERO | IDENT ;
+term dev v: v:NUMERO
+          | v:IDENT
+          ;
 
 
 generar código de inicio de clase:

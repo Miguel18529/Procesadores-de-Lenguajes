@@ -25,14 +25,12 @@ public class Principal {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(500,400);
         frame.setVisible(true);
-/*
+
         ParseTreeWalker walker = new ParseTreeWalker();
-        Anasem listener = new Anasem();
+        Compilador listener = new Compilador();
         walker.walk(listener, tree);
 
-        Interprete interprete = new Interprete();
-        interprete.visit(tree);
-*/
+
 
     }
 }

@@ -10,7 +10,7 @@ vars: IDENT vars
 estados: ESTADOS (estado)* ;
 estado: IDENT asignaciones ;
 asignaciones: asignacion asignaciones
- |
+ | asignacion
  ;
 asignacion: IDENT ASIG term PUNTOYCOMA ;
 inicial: INICIAL IDENT ;
