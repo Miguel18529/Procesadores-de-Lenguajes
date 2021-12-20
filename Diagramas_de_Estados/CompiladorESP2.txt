@@ -1,0 +1,182 @@
+OBJETIVO: Crear un compilador/traductor de diagrama de estados a java.
+
+GRAMÁTICA ATRIBUIDA:
+(1) Inicializar memorias
+(2) Almacenar estado en la memoria de estados
+(3) Almacenar transicion en la memoria de transiciones
+(4) Almacenar variables
+(5) Almacenar estado inicial
+(6) Generar código comienzo clase y main
+(7) Generar código declaración de variables
+(8) Generar código diagrama (incluidos generar códios estado y condición)
+(9) Generar código finalización main y clase
+
+estado inicial = ...
+
+estados:
+estado1|a=6, b=0...
+estado2|.....
+
+transiciones:
+estado1|estado2|a=b
+estado1|estado3|c<b
+
+generar_codigo_diagrama_desde(estado): //Generar código de un estado con sus transiciones
+    generar_codigo_estado(estado) //Escribir las variables del estado. Sencillo.
+    si(no hay transiciones desde(estado)) entonces //Se comprueba miando la memoria de transiciones. Sencillo.
+        escribir("cent=true;")
+    si no:
+        para cada transición desde estado:
+            escribir("if(cent==false && ");
+            generar_código_condicion(condición de la transición)//hay que procesar la condición. Complejo.
+            escribir("){");
+            generar_codigo_diagrama_desde(estado final transición)
+            escribir("}");
+        fpara
+    fsi
+
+EJEMPLO:
+Estado_inicial = estado1
+
+estados:
+estado1|a=6, b=0...
+estado2|a=0, b=6
+estado3|a=1, b=1
+
+transiciones:
+estado1|estado2|a>=b
+estado1|estado3|a>b
+
+       /> a>=b -> estado2
+estado1
+       \> a>b -> estado3
+
+main(...){
+    Integer a, b;
+    boolean cent=false;
+    a=6;
+    b=0;
+    if(cent==false && a>=b){
+        a=0;
+        b=6;
+        cent=true;
+    }
+    if(cent==false && a>b){
+        a=1;
+        b=6;
+        cent=true;
+    }
+}
+
+
+Añadimos otra transición:
+
+       /> a>=b -> estado2 -> true -> estado4
+estado1
+       \> a>b -> estado3
+
+Estado_inicial = estado1
+
+estados:
+estado1|a=6, b=0
+estado2|a=0, b=6
+estado3|a=1, b=1
+estado4|
+transiciones:
+estado1|estado2|a>=b
+estado1|estado3|a>b
+estado2|estado4|true
+
+main(...){
+    Integer a, b;
+    boolean cent=false;
+    a=6;
+    b=0;
+    //Estado1
+    if(cent==false && a>=b){
+        //Estado2
+        if(cent==false && a>b){
+            //estado4
+            cent=true;
+        }
+    }
+    if(cent==false && a<b){
+        //Estado3
+        cent=true;
+    }
+}
+
+IMPLEMENTACIÓN:
+public class Compilador extends AnasintBaseListener{
+    GeneradorCodigoCondicion g = new GeneradorCodigoCondicion();
+
+    boolean debug=true;
+
+    //(1) Inicializar memorias
+
+    //Cada estado con sus asignaciones
+    Map<String, List<Anasint.AsignacionContext> memoria_estados = new HashMap<>();
+
+    //Cada estado se asocia con sus transiciones. La transición contiene el estado destino y la condición.
+    Map<String, Map<String, Anasint.CondicionContext>> memoria_transiciones=new HashMap<>();
+
+    //Estado inicial
+    String inicial;
+
+    //Variables usadas en el diagrama
+    Set<String> variables = new HashSet<>();
+
+    List<Anasint.AsignacionContext> lista_asignaciones =
+
+
+    void generar_codigo_diagrama_desde(String estado){
+        escribir_estado(estado);
+        if(!memoria_transiciones.keySet().contains(estado)) escribir("cent=true;\n");
+        else {
+            escribir("if (fin==false && ");
+            for(String estado_destino:memoria_transiciones.get(estado).keySet()){
+                escribir_sin_indentar(generar_codigo_condicion(memoria_transiciones.get(estado).get(estado_destino))):
+                escribir_sin_indentar("{\n"); indent+=3;
+                generar_codigo_diagrama_desde(estado_destino); indent-=3;
+                escribir("}\n");
+            }
+        }
+    }
+
+    void escribir_estado(String estado){
+        escribir("//Estado " + estado + "\n");
+        .....
+    }
+    public void exitDiagrama(Anasint.DiagramaContext ctx){
+        abrir_fichero();
+        generar_código_comienzo_clase_y_main();
+        generar_codigo_declaracion_variables();
+    }
+
+}
+
+public Class GeneradorCodigoCondicion extends AnasintBaseVisitor<String>{
+    public String visitCondY(Anasint.CondYContext ctx){
+        return visit(ctx.condicion(0) + " && " + visit(ctx.condicion(1));
+    }
+
+    public String visitCondO(Anasint.CondOContext ctx){
+        return visit(ctx.condicion(0) + " || " + visit(ctx.condicion(1));
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
