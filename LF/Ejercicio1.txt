@@ -1,0 +1,11 @@
+VARIABLES x, y, z, a, b;
+INSTRUCCIONES
+a DEF -1;
+b DEF (a+1);
+EVAL b;
+a DEF 2;
+EVAL b;
+b DEF b + 1;
+z DEF 2*y;
+EVAL z;
+EVAL b;
