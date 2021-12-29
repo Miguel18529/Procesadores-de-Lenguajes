@@ -1,0 +1,52 @@
+Lenguaje R.
+Una asignación bien tipada sí y solo sí el tipo de la variable coincide con el tipo de la expresión asignada.
+Una expresión es de tipo entero si es un número, una variable entera o una suma, resta o multiplicación de enteros.
+Una expresión es de tipo booleano si es una cte booleana, una variable booleana o la conjunción, disyunción o negación de expresiones booleanas.
+Una expresión es de tipo lista entera....
+Una expresión es de tipo lista booleana....
+Una expresión es de tipo lista híbrida....
+
+Decisión de diseño 1: Para decidir si está bien tipada, se necesita saber el tipo de las variables implicadas en la asignación
+(almacén variables) variable| tipo
+                    -------------------
+                    l1, l2  | lista híbrida
+                    l3      | lista entera
+                    l4      | lista booleana
+                    i, j    | entero
+                    b       | booleano
+
+programa: n=variables {almacenar n en almacén variables} asignaciones
+
+(parametro de salida n)
+variables: VARIABLES (m=decl_vars {almacenar m en n})*
+
+(parámetro de salida m)
+decl_vars: t=tipo r=vars PyV {almacenar en m cada variable en r con tipo t}
+
+(parámetro de salida t)
+tipo: HLIST {t=lista híbrida}
+    | ILIST {t=lista entera}
+    | BLIST {t=lista booleana}
+    | INT {t=entero}
+    | BOOL {t=booleano}
+
+
+DECISIÓN DE DISEÑO 2: Una asignación en el lenguaje R está bien tipada si y solo si el tipo de la variable a la que se le asigna coincide con el de la asignación.
+Consideramos 7 tipos en R: entero, booleano, lista, lista entera, lista booleana, lista hibrida y no tìpo.
+
+lista entera implica lista
+lista booleana implica lista
+lista hibirida implica lista
+
+(parámetro de salida t)
+(función comprobar_tipos_asignación(tipo_var, tipo_expr)
+    si tipo_expr = no tipo -> ERROR
+    si no
+        si tipo_var y tipo_expr son listas
+            si tipo_var =lista híbrida -> NO ERROR
+            si no -> ERROR
+        si no -> ERROR)
+asignación: IDENT ASIG t=expr PyC
+                {comprobar_tipos_asignación(tipo de IDENT almacenado en almacén variables, t};
+
+
